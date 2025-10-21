@@ -13,8 +13,8 @@ class Command(BaseCommand):
         br, _ = Branch.objects.get_or_create(branch_name='Main Branch', city='Kyiv', country='Ukraine')
         tt, _ = TransactionType.objects.get_or_create(type_name='Transfer')
 
-        c1 = r.clients.create(full_name='Client 1', email='c1@example.com', phone='111111')
-        c2 = r.clients.create(full_name='Client 2', email='c2@example.com', phone='222222')
+        c1 = r.clients.create(full_name='Client 1', email='exampledemo@example.com', phone='111111')
+        c2 = r.clients.create(full_name='Client 2', email='demo2@example.com', phone='222222')
         a1 = r.accounts.create(client=c1, account_type=at, branch=br, balance=3000)
         a2 = r.accounts.create(client=c2, account_type=at, branch=br, balance=1000)
 

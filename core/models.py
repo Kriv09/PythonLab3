@@ -42,7 +42,7 @@ class TransactionType(models.Model):
 
 class Transaction(models.Model):
     sender_account = models.ForeignKey(Account, on_delete=models.PROTECT, related_name='sent_transactions')
-    receiver_account = models.ForeignKey(Account, on_delete=models.PROTECT, related_name='received_transactions', null=True, blank=True)
+    receiver_account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='received_transactions', null=True, blank=True)
     transaction_type = models.ForeignKey(TransactionType, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits=15, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)

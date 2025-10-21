@@ -17,6 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from rest_framework.routers import DefaultRouter
+from django.urls import path, include
+
+from core.api.views import ClientViewSet, AccountTypeViewSet, BranchViewSet, AccountViewSet, TransactionTypeViewSet, \
+    TransactionViewSet, ReportView
+
+router = DefaultRouter()
+router.register(r'clients', ClientViewSet)
+router.register(r'account-types', AccountTypeViewSet)
+router.register(r'branches', BranchViewSet)
+router.register(r'accounts', AccountViewSet)
+router.register(r'transaction-types', TransactionTypeViewSet)
+router.register(r'transactions', TransactionViewSet)
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api/report/', ReportView.as_view(), name='report'),
 ]
