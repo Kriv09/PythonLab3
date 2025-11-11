@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Branches{% endblock %}
+{% block content %}
+<h2>Branches</h2>
+<a href="{% url 'branch_add' %}" class="btn btn-success btn-sm mb-3">Add Branch</a>
+<table class="table table-striped">
+    <thead>
+    <tr><th>ID</th><th>Name</th><th>City</th><th>Country</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ obj.id }}</td>
+        <td><a href="{% url 'branch_detail' obj.id %}">{{ obj.branch_name }}</a></td>
+        <td>{{ obj.city }}</td>
+        <td>{{ obj.country }}</td>
+        <td>
+            <a href="{% url 'branch_edit' obj.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'branch_delete' obj.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" class="text-center text-muted">No branches yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

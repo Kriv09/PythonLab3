@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Account Details{% endblock %}
+{% block content %}
+<h2>Account {{ object.id }}</h2>
+<ul class="list-group">
+    <li class="list-group-item"><strong>Client:</strong> {{ object.client }}</li>
+    <li class="list-group-item"><strong>Type:</strong> {{ object.account_type }}</li>
+    <li class="list-group-item"><strong>Branch:</strong> {{ object.branch }}</li>
+    <li class="list-group-item"><strong>Balance:</strong> ${{ object.balance }}</li>
+    <li class="list-group-item"><strong>Created:</strong> {{ object.created_at|date:"Y-m-d H:i" }}</li>
+</ul>
+<div class="mt-3">
+    <a href="{% url 'account_edit' object.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'account_delete' object.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'account_list' %}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

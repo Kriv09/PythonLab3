@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Account Types{% endblock %}
+{% block content %}
+<h2>Account Types</h2>
+<a href="{% url 'accounttype_add' %}" class="btn btn-success btn-sm mb-3">Add Account Type</a>
+<table class="table table-striped">
+    <thead>
+    <tr><th>ID</th><th>Type Name</th><th>Description</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ obj.id }}</td>
+        <td><a href="{% url 'accounttype_detail' obj.id %}">{{ obj.type_name }}</a></td>
+        <td>{{ obj.description }}</td>
+        <td>
+            <a href="{% url 'accounttype_edit' obj.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'accounttype_delete' obj.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="text-center text-muted">No account types yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

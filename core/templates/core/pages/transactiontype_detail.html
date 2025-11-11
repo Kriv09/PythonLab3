@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Transaction Type{% endblock %}
+{% block content %}
+<h2>{{ object.type_name }}</h2>
+<div class="mt-3">
+    <a href="{% url 'transactiontype_edit' object.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'transactiontype_delete' object.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'transactiontype_list' %}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

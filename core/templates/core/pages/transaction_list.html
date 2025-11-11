@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Transactions{% endblock %}
+{% block content %}
+<h2>Transactions</h2>
+<a href="{% url 'transaction_add' %}" class="btn btn-success btn-sm mb-3">Add Transaction</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th><th>Sender</th><th>Receiver</th><th>Type</th><th>Amount</th><th>Date</th><th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ obj.id }}</td>
+        <td>{{ obj.sender_account }}</td>
+        <td>{{ obj.receiver_account }}</td>
+        <td>{{ obj.transaction_type }}</td>
+        <td>${{ obj.amount }}</td>
+        <td>{{ obj.timestamp|date:"Y-m-d H:i" }}</td>
+        <td>
+            <a href="{% url 'transaction_detail' obj.id %}" class="btn btn-info btn-sm">View</a>
+            <a href="{% url 'transaction_edit' obj.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'transaction_delete' obj.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="text-center text-muted">No transactions yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

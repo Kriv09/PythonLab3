@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Transaction Details{% endblock %}
+{% block content %}
+<h2>Transaction {{ object.id }}</h2>
+<ul class="list-group">
+    <li class="list-group-item"><strong>Sender:</strong> {{ object.sender_account }}</li>
+    <li class="list-group-item"><strong>Receiver:</strong> {{ object.receiver_account }}</li>
+    <li class="list-group-item"><strong>Type:</strong> {{ object.transaction_type }}</li>
+    <li class="list-group-item"><strong>Amount:</strong> ${{ object.amount }}</li>
+    <li class="list-group-item"><strong>Date:</strong> {{ object.timestamp|date:"Y-m-d H:i" }}</li>
+    <li class="list-group-item"><strong>Description:</strong> {{ object.description }}</li>
+</ul>
+<div class="mt-3">
+    <a href="{% url 'transaction_edit' object.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'transaction_delete' object.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

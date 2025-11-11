@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Transaction Types{% endblock %}
+{% block content %}
+<h2>Transaction Types</h2>
+<a href="{% url 'transactiontype_add' %}" class="btn btn-success btn-sm mb-3">Add Transaction Type</a>
+<table class="table table-striped">
+    <thead>
+    <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ obj.id }}</td>
+        <td><a href="{% url 'transactiontype_detail' obj.id %}">{{ obj.type_name }}</a></td>
+        <td>
+            <a href="{% url 'transactiontype_edit' obj.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'transactiontype_delete' obj.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3" class="text-center text-muted">No transaction types yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
