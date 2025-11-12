@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}External Genre Form{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2 class="mb-3">Create Genre (via Teammate’s API)</h2>
+
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="genrename" class="form-label">Genre Name</label>
+            <input type="text" id="genrename" name="genrename" class="form-control" value="{{ genrename|default:'' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send to External API</button>
+        <a href="/" class="btn btn-secondary">Back</a>
+    </form>
+
+    {% if status %}
+    <div class="alert alert-info">
+        <strong>Status:</strong> {{ status }}
+    </div>
+
+    <h5>Response:</h5>
+    <pre class="bg-light p-3 border rounded">{{ response|safe }}</pre>
+    {% endif %}
+</div>
+{% endblock %}

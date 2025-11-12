@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Genre Details (External)</h2>
+
+{% if status != 200 %}
+<div class="alert alert-danger">Failed to load genre (status {{ status }})</div>
+{% else %}
+<p><strong>ID:</strong> {{ genre.genreid }}</p>
+<p><strong>Name:</strong> {{ genre.genrename }}</p>
+<a href="{% url 'genre_edit' genre.genreid %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'genre_list' %}" class="btn btn-secondary">Back</a>
+{% endif %}
+{% endblock %}

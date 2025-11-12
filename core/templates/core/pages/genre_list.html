@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Genres (External API)</h1>
+<a href="{% url 'genre_add' %}" class="btn btn-primary mb-2">Add Genre</a>
+
+{% if status != 200 %}
+<div class="alert alert-danger">Error loading genres (status {{ status }})</div>
+{% endif %}
+
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    {% for genre in genres %}
+    <tr>
+        <td>{{ genre.genreid }}</td>
+        <td>{{ genre.genrename }}</td>
+        <td>
+            <a href="{% url 'genre_detail' genre.genreid %}">View</a> |
+            <a href="{% url 'genre_edit' genre.genreid %}">Edit</a> |
+            <a href="{% url 'genre_delete' genre.genreid %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

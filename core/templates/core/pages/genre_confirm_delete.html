@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Delete Genre (External)</h2>
+{% if status != 200 %}
+<div class="alert alert-danger">Cannot load genre (status {{ status }})</div>
+{% else %}
+<p>Are you sure you want to delete "{{ genre.genrename }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a href="{% url 'genre_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if genre %}Edit{% else %}Add{% endif %} Genre (External)</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="genrename">Genre Name:</label>
+        <input type="text" name="genrename" id="genrename" class="form-control"
+               value="{{ genre.genrename|default:'' }}" required>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'genre_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% if response %}
+<div class="alert alert-info mt-3">
+    {{ response }}
+</div>
+{% endif %}
+{% endblock %}

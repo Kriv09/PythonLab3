@@ -1,7 +1,9 @@
-from django.views import generic
+from django.views import generic, View
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.db.models import ProtectedError
+
+from .management.commands.NetworkHelper import NetworkHelper
 from .models import Client, AccountType, Branch, Account, TransactionType, Transaction
 
 class SafeDeleteView(generic.DeleteView):
@@ -171,3 +173,81 @@ class DashboardView(generic.TemplateView):
         context["accounts"] = Account.objects.all()
         context["transactions"] = Transaction.objects.all()
         return context
+
+from django.views import View
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from .management.commands.NetworkHelper import NetworkHelper
+
+
+class ExternalGenreBaseView(View):
+    base_url = "http://127.0.0.1:3000/api/"
+    helper = NetworkHelper(base_url=base_url, username="nazar", password="nazar")
+
+
+class ExternalGenreListView(ExternalGenreBaseView):
+    template_name = "core/pages/genre_list.html"
+
+    def get(self, request):
+        status, genres = self.helper.get("genres/")
+        return render(request, self.template_name, {
+            "genres": genres if status == 200 else [],
+            "status": status
+        })
+
+
+class ExternalGenreDetailView(ExternalGenreBaseView):
+    template_name = "core/pages/genre_detail.html"
+
+    def get(self, request, pk):
+        status, genre = self.helper.get(f"genres/{pk}/")
+        return render(request, self.template_name, {
+            "genre": genre,
+            "status": status
+        })
+
+
+class ExternalGenreCreateView(ExternalGenreBaseView):
+    template_name = "core/pages/genre_form.html"
+    success_url = reverse_lazy("genre_list")
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        genrename = request.POST.get("genrename")
+        status, response = self.helper.post("genres/", {"genrename": genrename})
+        if status in (200, 201):
+            return redirect(self.success_url)
+        return render(request, self.template_name, {"response": response, "status": status})
+
+
+class ExternalGenreUpdateView(ExternalGenreBaseView):
+    template_name = "core/pages/genre_form.html"
+    success_url = reverse_lazy("genre_list")
+
+    def get(self, request, pk):
+        status, genre = self.helper.get(f"genres/{pk}/")
+        return render(request, self.template_name, {"genre": genre, "status": status})
+
+    def post(self, request, pk):
+        genrename = request.POST.get("genrename")
+        status, response = self.helper.put(f"genres/{pk}/", {"genrename": genrename})
+        if status in (200, 204):
+            return redirect(self.success_url)
+        return render(request, self.template_name, {"response": response, "status": status})
+
+
+class ExternalGenreDeleteView(ExternalGenreBaseView):
+    template_name = "core/pages/genre_confirm_delete.html"
+    success_url = reverse_lazy("genre_list")
+
+    def get(self, request, pk):
+        status, genre = self.helper.get(f"genres/{pk}/")
+        return render(request, self.template_name, {"genre": genre, "status": status})
+
+    def post(self, request, pk):
+        status, response = self.helper.delete(f"genres/{pk}/")
+        if status in (200, 204):
+            return redirect(self.success_url)
+        return render(request, self.template_name, {"response": response, "status": status})

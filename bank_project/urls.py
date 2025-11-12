@@ -68,5 +68,15 @@ urlpatterns = [
     # Dashboard
     path('', views.DashboardView.as_view(), name='dashboard'),
 
+    #genre
+    path('genres/', views.ExternalGenreListView.as_view(), name='genre_list'),
+    path('genres/add/', views.ExternalGenreCreateView.as_view(), name='genre_add'),
+    path('genres/<int:pk>/', views.ExternalGenreDetailView.as_view(), name='genre_detail'),
+    path('genres/<int:pk>/edit/', views.ExternalGenreUpdateView.as_view(), name='genre_edit'),
+    path('genres/<int:pk>/delete/', views.ExternalGenreDeleteView.as_view(), name='genre_delete'),
+
+
+
+
 ]
 
