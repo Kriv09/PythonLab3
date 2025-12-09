@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+from core.api.analytics import TopClientsByTransactionSum, AccountsByBranch, BalanceByAccountType, TransactionTypeStats, \
+    AvgTransactionPerClient, RichClients
 from core.api.views import (
     ClientViewSet, AccountTypeViewSet, BranchViewSet, AccountViewSet,
-    TransactionTypeViewSet, TransactionViewSet, ReportView
+    TransactionTypeViewSet, TransactionViewSet, ReportView, AnalyticsDashBoardView, DBParallelTestView
 )
 from core import views
 
@@ -68,7 +71,7 @@ urlpatterns = [
     # Dashboard
     path('', views.DashboardView.as_view(), name='dashboard'),
 
-    #genre
+    #Genre
     path('genres/', views.ExternalGenreListView.as_view(), name='genre_list'),
     path('genres/add/', views.ExternalGenreCreateView.as_view(), name='genre_add'),
     path('genres/<int:pk>/', views.ExternalGenreDetailView.as_view(), name='genre_detail'),
@@ -76,7 +79,18 @@ urlpatterns = [
     path('genres/<int:pk>/delete/', views.ExternalGenreDeleteView.as_view(), name='genre_delete'),
 
 
+    path("api/analytics/top-clients/", TopClientsByTransactionSum.as_view(), name="analytics_top_clients"),
+    path("api/analytics/accounts-by-branch/", AccountsByBranch.as_view(), name="analytics_accounts_by_branch"),
+    path("api/analytics/balance-by-type/", BalanceByAccountType.as_view(), name="analytics_balance_by_type"),
+    path("api/analytics/transaction-t"
+         "ype-stats/", TransactionTypeStats.as_view(), name="analytics_transaction_type_stats"),
+    path("api/analytics/avg-transaction-per-client/", AvgTransactionPerClient.as_view(), name="analytics_avg_transaction_per_client"),
+    path("api/analytics/rich-clients/", RichClients.as_view(), name="analytics_rich_clients"),
 
+    path('dashboard/analytics/', AnalyticsDashBoardView.as_view(), name='dashboard_analytics'),
+
+    path('api/db-parallel-test/', DBParallelTestView.as_view(), name='db_parallel_test'),
 
 ]
+
 
